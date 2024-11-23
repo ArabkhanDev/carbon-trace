@@ -1,0 +1,2 @@
+package az.hakaton.karbon.dto.request;public class UserCarbonDataRequest {
+}

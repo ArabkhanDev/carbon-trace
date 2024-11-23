@@ -1,0 +1,8 @@
+package az.hakaton.karbon.enums;
+
+public enum ManufactureType {
+    ELECTRIC,
+    GASOLINE,
+    DIESEL,
+    HYBRID
+}

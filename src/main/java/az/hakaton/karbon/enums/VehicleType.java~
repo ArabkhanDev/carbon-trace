@@ -1,0 +1,4 @@
+package az.hakaton.karbon.enums;
+
+public class VehicleType {
+}

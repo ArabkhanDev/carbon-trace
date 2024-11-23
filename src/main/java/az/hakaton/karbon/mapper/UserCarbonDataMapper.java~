@@ -1,0 +1,90 @@
+package az.hakaton.karbon.mapper;
+
+import az.hakaton.karbon.dto.common.UserCarbonDataDTO;
+import az.hakaton.karbon.dto.request.EnergyRequest;
+import az.hakaton.karbon.dto.request.SecondaryRequest;
+import az.hakaton.karbon.dto.request.TransportRequest;
+import az.hakaton.karbon.dto.request.VehicleRequest;
+import az.hakaton.karbon.model.UserCarbonData;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+
+@Mapper(componentModel = "spring", uses = { EnergyRequest.class, SecondaryRequest.class, TransportRequest.class, VehicleRequest.class })
+public interface UserCarbonDataMapper {
+
+    @Mapping(target = "electricity", source = "energy.electricity")
+    @Mapping(target = "naturalGas", source = "energy.naturalGas")
+    @Mapping(target = "heatingOil", source = "energy.heatingOil")
+    @Mapping(target = "coal", source = "energy.coal")
+    @Mapping(target = "lpg", source = "energy.lpg")
+    @Mapping(target = "propane", source = "energy.propane")
+    @Mapping(target = "wood", source = "energy.wood")
+    @Mapping(target = "foodAndDrink", source = "secondary.foodAndDrink")
+    @Mapping(target = "pharmaceuticals", source = "secondary.pharmaceuticals")
+    @Mapping(target = "clothesTextilesAndShoes", source = "secondary.clothesTextilesAndShoes")
+    @Mapping(target = "paperBasedProducts", source = "secondary.paperBasedProducts")
+    @Mapping(target = "computersAndITEquipment", source = "secondary.computersAndITEquipment")
+    @Mapping(target = "televisionRadioPhone", source = "secondary.televisionRadioPhone")
+    @Mapping(target = "motorVehicles", source = "secondary.motorVehicles")
+    @Mapping(target = "furnitureManufacturedGoods", source = "secondary.furnitureManufacturedGoods")
+    @Mapping(target = "hotelsRestaurantsPubs", source = "secondary.hotelsRestaurantsPubs")
+    @Mapping(target = "telephoneMobileCosts", source = "secondary.telephoneMobileCosts")
+    @Mapping(target = "bankingFinance", source = "secondary.bankingFinance")
+    @Mapping(target = "insurance", source = "secondary.insurance")
+    @Mapping(target = "education", source = "secondary.education")
+    @Mapping(target = "recreationalCulturalSportingActivities", source = "secondary.recreationalCulturalSportingActivities")
+    @Mapping(target = "bus", source = "transport.bus")
+    @Mapping(target = "coach", source = "transport.coach")
+    @Mapping(target = "localCommuterTrain", source = "transport.localCommuterTrain")
+    @Mapping(target = "longDistanceTrain", source = "transport.longDistanceTrain")
+    @Mapping(target = "tram", source = "transport.tram")
+    @Mapping(target = "subway", source = "transport.subway")
+    @Mapping(target = "taxi", source = "transport.taxi")
+    @Mapping(target = "vehicleType", source = "vehicle.vehicleType")
+    @Mapping(target = "manufactureYear", source = "vehicle.manufactureYear")
+    @Mapping(target = "manufactureType", source = "vehicle.manufactureType")
+    @Mapping(target = "model", source = "vehicle.model")
+    @Mapping(target = "user.id", source = "userId")
+    UserCarbonData mapToEntity(UserCarbonDataDTO request);
+
+    @Mapping(target = "energy.electricity", source = "electricity")
+    @Mapping(target = "energy.naturalGas", source = "naturalGas")
+    @Mapping(target = "energy.heatingOil", source = "heatingOil")
+    @Mapping(target = "energy.coal", source = "coal")
+    @Mapping(target = "energy.lpg", source = "lpg")
+    @Mapping(target = "energy.propane", source = "propane")
+    @Mapping(target = "energy.wood", source = "wood")
+    @Mapping(target = "secondary.foodAndDrink", source = "foodAndDrink")
+    @Mapping(target = "secondary.pharmaceuticals", source = "pharmaceuticals")
+    @Mapping(target = "secondary.clothesTextilesAndShoes", source = "clothesTextilesAndShoes")
+    @Mapping(target = "secondary.paperBasedProducts", source = "paperBasedProducts")
+    @Mapping(target = "secondary.computersAndITEquipment", source = "computersAndITEquipment")
+    @Mapping(target = "secondary.televisionRadioPhone", source = "televisionRadioPhone")
+    @Mapping(target = "secondary.motorVehicles", source = "motorVehicles")
+    @Mapping(target = "secondary.furnitureManufacturedGoods", source = "furnitureManufacturedGoods")
+    @Mapping(target = "secondary.hotelsRestaurantsPubs", source = "hotelsRestaurantsPubs")
+    @Mapping(target = "secondary.telephoneMobileCosts", source = "telephoneMobileCosts")
+    @Mapping(target = "secondary.bankingFinance", source = "bankingFinance")
+    @Mapping(target = "secondary.insurance", source = "insurance")
+    @Mapping(target = "secondary.education", source = "education")
+    @Mapping(target = "secondary.recreationalCulturalSportingActivities", source = "recreationalCulturalSportingActivities")
+    @Mapping(target = "transport.bus", source = "bus")
+    @Mapping(target = "transport.coach", source = "coach")
+    @Mapping(target = "transport.localCommuterTrain", source = "localCommuterTrain")
+    @Mapping(target = "transport.longDistanceTrain", source = "longDistanceTrain")
+    @Mapping(target = "transport.tram", source = "tram")
+    @Mapping(target = "transport.subway", source = "subway")
+    @Mapping(target = "transport.taxi", source = "taxi")
+    @Mapping(target = "vehicle.vehicleType", source = "vehicleType")
+    @Mapping(target = "vehicle.manufactureYear", source = "manufactureYear")
+    @Mapping(target = "vehicle.manufactureType", source = "manufactureType")
+    @Mapping(target = "vehicle.model", source = "model")
+    @Mapping(target = "userId", source = "user.id")
+    UserCarbonDataDTO mapToResponseDTO(UserCarbonData user);
+
+    
+    @Mapping(target = "id", ignore = true)
+    void updateUserFromDTO(UserCarbonDataDTO movieStreamRequestDTO, @MappingTarget UserCarbonData user);
+}
+
