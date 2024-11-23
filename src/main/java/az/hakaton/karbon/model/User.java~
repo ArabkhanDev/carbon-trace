@@ -1,0 +1,4 @@
+package az.hakaton.karbon.model;
+
+public class User {
+}

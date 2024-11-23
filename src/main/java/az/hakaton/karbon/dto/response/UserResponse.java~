@@ -1,0 +1,2 @@
+package az.hakaton.karbon.dto.response;public class UserResponse {
+}

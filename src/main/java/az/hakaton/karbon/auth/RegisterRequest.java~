@@ -1,0 +1,4 @@
+package az.hakaton.karbon.auth;
+
+public class RegisterRequest {
+}
