@@ -1,6 +1,13 @@
 package az.hakaton.karbon.enums;
 
 public enum VehicleType {
-    CAR,
-    BUS
+    LARGE_PETROL_CAR,
+    MEDIUM_PETROL_CAR,
+    SMALL_PETROL_CAR,
+    LARGE_PETROL_HYBRID_CAR,
+    MEDIUM_PETROL_HYBRID_CAR,
+    SMALL_PETROL_HYBRID_CAR,
+    LARGE_PLUG_IN_HYBRID_CAR,
+    MEDIUM_PLUG_IN_HYBRID_CAR,
+    SMALL_PLUG_IN_HYBRID_CAR
 }

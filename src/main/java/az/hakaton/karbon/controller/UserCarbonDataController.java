@@ -1,6 +1,7 @@
 package az.hakaton.karbon.controller;
 
 import az.hakaton.karbon.dto.common.UserCarbonDataDTO;
+import az.hakaton.karbon.dto.response.UserDataCalculatedResponse;
 import az.hakaton.karbon.service.inter.UserCarbonDataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,12 @@ public class UserCarbonDataController {
     @ResponseStatus(HttpStatus.CREATED)
     public void saveUserCarbonData(@RequestBody UserCarbonDataDTO request) {
         userCarbonDataService.saveUserCarbonData(request);
+    }
+
+    @PostMapping("/calculate/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDataCalculatedResponse calculateUserData(@PathVariable Long id) {
+       return userCarbonDataService.calculateTotalCarbonEmission(id);
     }
 
 
