@@ -15,20 +15,45 @@ public class UserCarbonDataController {
     private final UserCarbonDataService userCarbonDataService;
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public UserCarbonDataDTO getCarbonDataById(@PathVariable Long id) {
         return userCarbonDataService.getCarbonDataById(id);
+    }
+
+    @GetMapping("/carbon/energy/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public double calculateEnergy(@PathVariable Long id) {
+        return userCarbonDataService.calculateEnergy(id);
+    }
+
+    @GetMapping("/carbon/secondary/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public double calculateSecondary(@PathVariable Long id) {
+        return userCarbonDataService.calculateSecondary(id);
+    }
+
+    @GetMapping("/carbon/transport/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public double calculateTransport(@PathVariable Long id) {
+        return userCarbonDataService.calculateTransport(id);
+    }
+
+    @GetMapping("/carbon/vehicle/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public double calculateVehicle(@PathVariable Long id) {
+        return userCarbonDataService.calculateVehicle(id);
+    }
+
+    @GetMapping("/carbon/total/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDataCalculatedResponse calculateTotal(@PathVariable Long id) {
+        return userCarbonDataService.calculateTotal(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void saveUserCarbonData(@RequestBody UserCarbonDataDTO request) {
         userCarbonDataService.saveUserCarbonData(request);
-    }
-
-    @PostMapping("/calculate/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public UserDataCalculatedResponse calculateUserData(@PathVariable Long id) {
-       return userCarbonDataService.calculateTotalCarbonEmission(id);
     }
 
 

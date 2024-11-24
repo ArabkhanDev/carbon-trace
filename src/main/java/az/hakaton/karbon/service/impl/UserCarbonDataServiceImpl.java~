@@ -114,11 +114,18 @@ public class UserCarbonDataServiceImpl implements UserCarbonDataService {
     }
 
     @Override
-    public double calculateEnergy(Long id) {
+    public UserDataCalculatedResponse calculateTotalCarbonEmission(Long id) {
+        // Retrieve the UserCarbonData entity by ID (throw exception if not found)
         UserCarbonData userCarbonData = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("UserCarbonData not found for id: " + id));
-        double energyEmissions = 0;
 
+        // Initialize category emissions
+        double energyEmissions = 0;
+        double secondaryEmissions = 0;
+        double transportEmissions = 0;
+        double vehicleEmissions = 0;
+
+        // Calculate energy-related emissions
         energyEmissions += userCarbonData.getElectricity() * ELECTRICITY;
         energyEmissions += userCarbonData.getNaturalGas() * NATURAL_GAS;
         energyEmissions += userCarbonData.getHeatingOil() * HEATING_OIL;
@@ -127,15 +134,7 @@ public class UserCarbonDataServiceImpl implements UserCarbonDataService {
         energyEmissions += userCarbonData.getPropane() * PROPANE;
         energyEmissions += userCarbonData.getWood() * WOODEN_PELLETS;
 
-        return energyEmissions;
-    }
-
-    @Override
-    public double calculateSecondary(Long id) {
-        UserCarbonData userCarbonData = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("UserCarbonData not found for id: " + id));
-        double secondaryEmissions = 0;
-
+        // Calculate secondary-related emissions
         secondaryEmissions += userCarbonData.getFoodAndDrink() * FOOD_AND_DRINK;
         secondaryEmissions += userCarbonData.getPharmaceuticals() * PHARMACEUTICALS;
         secondaryEmissions += userCarbonData.getClothesTextilesAndShoes() * CLOTHES_TEXTILES_AND_SHOES;
@@ -151,15 +150,7 @@ public class UserCarbonDataServiceImpl implements UserCarbonDataService {
         secondaryEmissions += userCarbonData.getEducation() * EDUCATION;
         secondaryEmissions += userCarbonData.getRecreationalCulturalSportingActivities() * RECREATIONAL_CULTURAL_AND_SPORTING_ACTIVITIES;
 
-        return secondaryEmissions;
-    }
-
-    @Override
-    public double calculateTransport(Long id) {
-        UserCarbonData userCarbonData = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("UserCarbonData not found for id: " + id));
-        double transportEmissions = 0;
-
+        // Calculate transport-related emissions
         transportEmissions += userCarbonData.getBus() * BUS;
         transportEmissions += userCarbonData.getCoach() * COACH;
         transportEmissions += userCarbonData.getLocalCommuterTrain() * LOCAL_OR_COMMUTER_TRAIN;
@@ -168,15 +159,7 @@ public class UserCarbonDataServiceImpl implements UserCarbonDataService {
         transportEmissions += userCarbonData.getSubway() * SUBWAY;
         transportEmissions += userCarbonData.getTaxi() * TAXI;
 
-        return transportEmissions;
-    }
-
-    @Override
-    public double calculateVehicle(Long id) {
-        UserCarbonData userCarbonData = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("UserCarbonData not found for id: " + id));
-        double vehicleEmissions = 0;
-
+        // Calculate vehicle-related emissions
         if (userCarbonData.getVehicleType() != null) {
             switch (userCarbonData.getVehicleType()) {
                 case LARGE_PETROL_CAR:
@@ -209,110 +192,17 @@ public class UserCarbonDataServiceImpl implements UserCarbonDataService {
             }
         }
 
-        return vehicleEmissions;
-    }
+        // Calculate total emissions
+        double totalEmissions = energyEmissions + secondaryEmissions + transportEmissions + vehicleEmissions;
 
-    @Override
-    public UserDataCalculatedResponse calculateTotal(Long id) {
-        UserDataCalculatedResponse response = new UserDataCalculatedResponse();
-        response.setEnergy(calculateEnergy(id));
-        response.setSecondary(calculateSecondary(id));
-        response.setTransport(calculateTransport(id));
-        response.setVehicle(calculateVehicle(id));
-        response.setTotal(calculateEnergy(id) + calculateSecondary(id) + calculateTransport(id) + calculateVehicle(id));
-        return response;
+        // Return the calculated DTO
+        return new UserDataCalculatedResponse(
+                energyEmissions,
+                secondaryEmissions,
+                transportEmissions,
+                vehicleEmissions,
+                totalEmissions
+        );
     }
-
-//    @Override
-//    public UserDataCalculatedResponse calculateTotalCarbonEmission(Long id) {
-//        // Retrieve the UserCarbonData entity by ID (throw exception if not found)
-//        UserCarbonData userCarbonData = repository.findById(id)
-//                .orElseThrow(() -> new EntityNotFoundException("UserCarbonData not found for id: " + id));
-//
-//        // Initialize category emissions
-//        double energyEmissions = 0;
-//        double secondaryEmissions = 0;
-//        double transportEmissions = 0;
-//        double vehicleEmissions = 0;
-//
-//        // Calculate energy-related emissions
-////        energyEmissions += userCarbonData.getElectricity() * ELECTRICITY;
-////        energyEmissions += userCarbonData.getNaturalGas() * NATURAL_GAS;
-////        energyEmissions += userCarbonData.getHeatingOil() * HEATING_OIL;
-////        energyEmissions += userCarbonData.getCoal() * COAL;
-////        energyEmissions += userCarbonData.getLpg() * LPG;
-////        energyEmissions += userCarbonData.getPropane() * PROPANE;
-////        energyEmissions += userCarbonData.getWood() * WOODEN_PELLETS;
-//
-//        // Calculate secondary-related emissions
-////        secondaryEmissions += userCarbonData.getFoodAndDrink() * FOOD_AND_DRINK;
-////        secondaryEmissions += userCarbonData.getPharmaceuticals() * PHARMACEUTICALS;
-////        secondaryEmissions += userCarbonData.getClothesTextilesAndShoes() * CLOTHES_TEXTILES_AND_SHOES;
-////        secondaryEmissions += userCarbonData.getPaperBasedProducts() * PAPER_BASED_PRODUCTS;
-////        secondaryEmissions += userCarbonData.getComputersAndITEquipment() * COMPUTERS_AND_IT_EQUIPMENT;
-////        secondaryEmissions += userCarbonData.getTelevisionRadioPhone() * TELEVISION_RADIO_AND_PHONE;
-////        secondaryEmissions += userCarbonData.getMotorVehicles() * MOTOR_VEHICLES;
-////        secondaryEmissions += userCarbonData.getFurnitureManufacturedGoods() * FURNITURE_AND_MANUFACTURED_GOODS;
-////        secondaryEmissions += userCarbonData.getHotelsRestaurantsPubs() * HOTELS_RESTAURANTS_AND_PUBS;
-////        secondaryEmissions += userCarbonData.getTelephoneMobileCosts() * TELEPHONE_MOBILE_COSTS;
-////        secondaryEmissions += userCarbonData.getBankingFinance() * BANKING_AND_FINANCE;
-////        secondaryEmissions += userCarbonData.getInsurance() * INSURANCE;
-////        secondaryEmissions += userCarbonData.getEducation() * EDUCATION;
-////        secondaryEmissions += userCarbonData.getRecreationalCulturalSportingActivities() * RECREATIONAL_CULTURAL_AND_SPORTING_ACTIVITIES;
-//
-//        // Calculate transport-related emissions
-////        transportEmissions += userCarbonData.getBus() * BUS;
-////        transportEmissions += userCarbonData.getCoach() * COACH;
-////        transportEmissions += userCarbonData.getLocalCommuterTrain() * LOCAL_OR_COMMUTER_TRAIN;
-////        transportEmissions += userCarbonData.getLongDistanceTrain() * LONG_DISTANCE_TRAIN;
-////        transportEmissions += userCarbonData.getTram() * TRAM;
-////        transportEmissions += userCarbonData.getSubway() * SUBWAY;
-////        transportEmissions += userCarbonData.getTaxi() * TAXI;
-//
-//        // Calculate vehicle-related emissions
-////        if (userCarbonData.getVehicleType() != null) {
-////            switch (userCarbonData.getVehicleType()) {
-////                case LARGE_PETROL_CAR:
-////                    vehicleEmissions += LARGE_PETROL_CAR;
-////                    break;
-////                case MEDIUM_PETROL_CAR:
-////                    vehicleEmissions += MEDIUM_PETROL_CAR;
-////                    break;
-////                case SMALL_PETROL_CAR:
-////                    vehicleEmissions += SMALL_PETROL_CAR;
-////                    break;
-////                case LARGE_PETROL_HYBRID_CAR:
-////                    vehicleEmissions += LARGE_PETROL_HYBRID_CAR;
-////                    break;
-////                case MEDIUM_PETROL_HYBRID_CAR:
-////                    vehicleEmissions += MEDIUM_PETROL_HYBRID_CAR;
-////                    break;
-////                case SMALL_PETROL_HYBRID_CAR:
-////                    vehicleEmissions += SMALL_PETROL_HYBRID_CAR;
-////                    break;
-////                case LARGE_PLUG_IN_HYBRID_CAR:
-////                    vehicleEmissions += LARGE_PLUG_IN_HYBRID_CAR;
-////                    break;
-////                case MEDIUM_PLUG_IN_HYBRID_CAR:
-////                    vehicleEmissions += MEDIUM_PLUG_IN_HYBRID_CAR;
-////                    break;
-////                case SMALL_PLUG_IN_HYBRID_CAR:
-////                    vehicleEmissions += SMALL_PLUG_IN_HYBRID_CAR;
-////                    break;
-////            }
-////        }
-//
-//        // Calculate total emissions
-//        double totalEmissions = energyEmissions + secondaryEmissions + transportEmissions + vehicleEmissions;
-//
-//        // Return the calculated DTO
-//        return new UserDataCalculatedResponse(
-//                energyEmissions,
-//                secondaryEmissions,
-//                transportEmissions,
-//                vehicleEmissions,
-//                totalEmissions
-//        );
-//    }
 
 }

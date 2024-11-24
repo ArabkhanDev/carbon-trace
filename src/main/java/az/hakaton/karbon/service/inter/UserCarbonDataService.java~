@@ -13,15 +13,7 @@ public interface UserCarbonDataService {
 
     void deleteCarbonData(Long id);
 
-    double calculateEnergy(Long id);
-
-    double calculateSecondary(Long id);
-
-    double calculateTransport(Long id);
-
-    double calculateVehicle(Long id);
-
-    UserDataCalculatedResponse calculateTotal(Long id);
+    UserDataCalculatedResponse calculateTotalCarbonEmission(Long id);
 
 
 }
