@@ -8,7 +8,6 @@ import az.hakaton.karbon.dto.request.TransportRequest;
 import az.hakaton.karbon.dto.request.VehicleRequest;
 import az.hakaton.karbon.model.UserCarbonData;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring", uses = {EnergyRequest.class, SecondaryRequest.class, TransportRequest.class, VehicleRequest.class})
@@ -81,7 +80,7 @@ public interface UserCarbonDataMapper {
 //    @Mapping(target = "vehicle.manufactureYear", source = "manufactureYear")
 //    @Mapping(target = "vehicle.manufactureType", source = "manufactureType")
 //    @Mapping(target = "vehicle.model", source = "model")
-    @Mapping(target = "userId", source = "user.id")
+//    @Mapping(target = "userId", source = "user.id")
     UserSubmitDataDTO mapToResponseDTO(UserCarbonData user);
 
 

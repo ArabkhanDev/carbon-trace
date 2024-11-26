@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -35,6 +36,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "User not found with id: " + id));
     }
 
+    @Transactional
     @Override
     public UserDTO updateUser(Long id, UserDTO userDTO) {
         User user = repository.findById(id)
@@ -48,5 +50,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public UserDTO changePassword(Long id, UserDTO userDTO) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "User not found with id:" + id));
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        return userMapper.mapToResponseDTO(repository.save(user));
     }
 }

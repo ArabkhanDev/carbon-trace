@@ -48,10 +48,10 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/**")
-                        .permitAll()
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**")
-                        .permitAll()
+                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**")
+                                .permitAll()
+                                .requestMatchers("/api/v1/auth/**")
+                                .permitAll()
 //                        .requestMatchers("/api/v1/books/**", "/api/v1/authors/**",
 //                                "/api/v1/borrowing-records/**", "/api/v1/categories/**",
 //                                "/api/v1/late-return-charges/**", "/api/v1/members/**",

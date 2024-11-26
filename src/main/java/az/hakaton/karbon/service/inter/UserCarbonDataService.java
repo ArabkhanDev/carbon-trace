@@ -1,15 +1,16 @@
 package az.hakaton.karbon.service.inter;
 
 import az.hakaton.karbon.dto.common.UserCarbonDataDTO;
+import az.hakaton.karbon.dto.common.UserSubmitDataDTO;
 import az.hakaton.karbon.dto.response.UserDataCalculatedResponse;
 
 public interface UserCarbonDataService {
 
-    UserCarbonDataDTO getCarbonDataById(Long id);
+    UserSubmitDataDTO getCarbonDataById(Long id);
 
-    void saveUserCarbonData(UserCarbonDataDTO userCarbonDataDTO);
+    UserSubmitDataDTO saveUserCarbonData(UserSubmitDataDTO userCarbonDataDTO);
 
-    void updateCarbonData(Long id, UserCarbonDataDTO request);
+    void updateCarbonData(Long id, UserSubmitDataDTO request);
 
     void deleteCarbonData(Long id);
 

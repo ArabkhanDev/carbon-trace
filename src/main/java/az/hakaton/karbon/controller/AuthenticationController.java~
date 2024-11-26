@@ -5,7 +5,6 @@ import az.hakaton.karbon.dto.request.AuthenticationRequest;
 import az.hakaton.karbon.dto.request.RegisterRequest;
 import az.hakaton.karbon.dto.response.AuthenticationResponse;
 import az.hakaton.karbon.repository.UserRepository;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +22,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
-            @Valid @RequestBody RegisterRequest request
+            @RequestBody RegisterRequest request
     ){
         return ResponseEntity.ok(service.register(request));
     }

@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserCarbonDataDTO {
 
+    private Long id;
     private EnergyRequest energy;
     private SecondaryRequest secondary;
     private TransportRequest transport;

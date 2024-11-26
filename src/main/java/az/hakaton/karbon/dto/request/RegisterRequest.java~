@@ -2,7 +2,6 @@ package az.hakaton.karbon.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -23,7 +22,6 @@ public class RegisterRequest {
     private String email;
 
     @NotBlank(message = "Password is required.")
-    @Size(min = 10, message = "Password should be at least 10 characters long.")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z]).*$", message = "Password must contain at least one lowercase letter and one uppercase letter.")
+    @Size(min = 10, message = "Password should be at least 8 characters long.")
     private String password;
 }

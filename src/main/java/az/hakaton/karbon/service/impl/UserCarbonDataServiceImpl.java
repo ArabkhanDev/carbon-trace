@@ -1,6 +1,7 @@
 package az.hakaton.karbon.service.impl;
 
 import az.hakaton.karbon.dto.common.UserCarbonDataDTO;
+import az.hakaton.karbon.dto.common.UserSubmitDataDTO;
 import az.hakaton.karbon.dto.response.UserDataCalculatedResponse;
 import az.hakaton.karbon.mapper.UserCarbonDataMapper;
 import az.hakaton.karbon.model.User;
@@ -82,8 +83,8 @@ public class UserCarbonDataServiceImpl implements UserCarbonDataService {
 
 
     @Override
-    public UserCarbonDataDTO getCarbonDataById(Long id) {
-        UserCarbonDataDTO userCarbonDataDTO = mapper.mapToResponseDTO(repository.findById(id)
+    public UserSubmitDataDTO getCarbonDataById(Long id) {
+        UserSubmitDataDTO userCarbonDataDTO = mapper.mapToResponseDTO(repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "UserCarbonData not found with id: " + id)));
         userCarbonDataDTO.setUserId(userCarbonDataDTO.getUserId());
         return userCarbonDataDTO;
@@ -91,19 +92,20 @@ public class UserCarbonDataServiceImpl implements UserCarbonDataService {
 
     @Transactional
     @Override
-    public void saveUserCarbonData(UserCarbonDataDTO request) {
+    public UserSubmitDataDTO saveUserCarbonData(UserSubmitDataDTO request) {
         UserCarbonData userCarbonData = mapper.mapToEntity(request);
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "User Carbon Data not found with id: " + request.getUserId()));
         userCarbonData.setUser(user);
-        repository.save(userCarbonData);
+        UserCarbonData save = repository.save(userCarbonData);
+        return mapper.mapToResponseDTO(save);
     }
 
     @Transactional
     @Override
-    public void updateCarbonData(Long id, UserCarbonDataDTO request) {
+    public void updateCarbonData(Long id, UserSubmitDataDTO request) {
         UserCarbonData userCarbonData = repository.findById(id)
-                .orElseThrow(() ->new ResponseStatusException(NOT_FOUND, "User Carbon Data not found with id: " + id));
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "User Carbon Data not found with id: " + id));
         mapper.updateEntityFromDto(request, userCarbonData);
         repository.save(userCarbonData);
     }
